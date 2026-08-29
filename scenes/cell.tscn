@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://chs60odgyuvyg"]
+
+[ext_resource type="Script" uid="uid://d0oa3yivx5ui8" path="res://scripts/cell.gd" id="1_upbjj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kifso"]
+size = Vector3(0.95, 0.1, 0.95)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0pg10"]
+size = Vector3(0.95, 0.05, 0.95)
+
+[node name="Cell" type="Area3D" unique_id=124707077]
+script = ExtResource("1_upbjj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=843250391]
+shape = SubResource("BoxShape3D_kifso")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=454860901]
+mesh = SubResource("BoxMesh_0pg10")

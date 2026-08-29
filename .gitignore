@@ -1,0 +1,22 @@
+# Godot
+.godot/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+
+# Traducciones generadas
+*.translation
+
+# Export presets si contienen datos sensibles
+export_presets.cfg
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / Editores
+.vscode/
+.idea/
+*.swp

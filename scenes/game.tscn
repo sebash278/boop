@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://84na1gxejifa"]
+
+[ext_resource type="Script" uid="uid://d2e7gfq8ig035" path="res://scripts/game.gd" id="1_uwrxv"]
+
+[node name="Game" type="Node3D" unique_id=549211417]
+script = ExtResource("1_uwrxv")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=918590529]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 8, 7)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1348995215]
+transform = Transform3D(0.8660254, 0.38302222, -0.32139382, 0, 0.64278764, 0.76604444, 0.5, -0.66341394, 0.5566704, 0, 0, 0)
+
+[node name="Board" type="Node3D" parent="." unique_id=1655012464]
+
+[node name="Cats" type="Node3D" parent="." unique_id=1553977026]
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=13076190]
+
+[node name="TurnLabel" type="Label" parent="UI" unique_id=35933207]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Turno: Jugador 1"

@@ -1,14 +1,10 @@
 class_name Cell
-extends Area3D
-
-signal clicked(coords: Vector2i)
+extends StaticBody3D
 
 @export var coords: Vector2i = Vector2i.ZERO
 
 func _ready() -> void:
-	input_event.connect(_on_input_event)
-
-func _on_input_event(_camera, event, _position, _normal, _shape_idx) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			clicked.emit(coords)
+	# cell exists in layer 1
+	collision_layer = 1
+	# cell doesnt recognize any other object
+	collision_mask = 0

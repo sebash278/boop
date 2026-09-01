@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d2e7gfq8ig035" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="Script" uid="uid://d1dpkvkfidt1u" path="res://scripts/board.gd" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://yapkfu4a8xjg" path="res://scripts/click_raycaster.gd" id="3_lnu2h"]
 
 [node name="Game" type="Node3D" unique_id=549211417]
 script = ExtResource("1_uwrxv")
@@ -17,6 +18,9 @@ transform = Transform3D(0.8660254, 0.38302222, -0.32139382, 0, 0.64278764, 0.766
 script = ExtResource("2_yqjtg")
 
 [node name="Cats" type="Node3D" parent="." unique_id=1553977026]
+
+[node name="ClickRaycaster" type="Node3D" parent="." unique_id=463586965]
+script = ExtResource("3_lnu2h")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=13076190]
 

@@ -28,6 +28,12 @@ func _on_cell_clicked(coords: Vector2i) -> void:
 	
 	if check_win_condition(current_player):
 		trigger_game_over(current_player)
+		return
+		
+	var opponent := 1 - current_player
+	if check_win_condition(opponent):
+		trigger_game_over(opponent)
+		return
 		
 	switch_turn()
 
@@ -54,6 +60,10 @@ func push_nearby_cats(coords: Vector2i) -> void:
 		Vector2i.DOWN,
 		Vector2i.LEFT,
 		Vector2i.RIGHT,
+		Vector2i(1, 1),
+		Vector2i(1, -1),
+		Vector2i(-1, 1),
+		Vector2i(-1, -1)
 	]
 
 	for dir in directions:

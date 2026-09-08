@@ -23,7 +23,8 @@ func build_board() -> void:
 			add_child(cell)
 
 			grid[coords] = {
-				"cat": null
+				"cat": null,
+				"owner": -1
 			}
 
 func to_world(coords: Vector2i) -> Vector3:

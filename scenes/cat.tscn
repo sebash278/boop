@@ -1,9 +1,17 @@
 [gd_scene format=3 uid="uid://dbci3iqll30p2"]
 
+[ext_resource type="PackedScene" uid="uid://cvpwloq2xtt8" path="res://assets/models/Kitten by jeremy - dXyLRVNOalM.glb" id="1_myi5k"]
+[ext_resource type="Script" uid="uid://rhchu67nf421" path="res://scripts/cat.gd" id="1_se5fe"]
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_kifso"]
 
 [node name="Cat" type="Node3D" unique_id=1804010131]
+script = ExtResource("1_se5fe")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=374089802]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_kifso")
+
+[node name="CatModel" parent="." unique_id=808448924 instance=ExtResource("1_myi5k")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.5, 0)

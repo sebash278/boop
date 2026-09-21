@@ -3,8 +3,14 @@ extends Node3D
 
 @onready var board: Board = $Board
 @onready var cats_root: Node3D = $Cats
-@onready var turn_label: Label = $UI/TurnLabel
 @onready var click_raycaster: ClickRaycaster = $ClickRaycaster
+@onready var place_sound: AudioStreamPlayer = $PlaceSound
+@onready var meow_sound: AudioStreamPlayer = $MeowSound
+@onready var turn_label: Label = $UI/TopCenterContainer/TurnPanel/TurnMargin/TurnLabel
+@onready var turn_panel: PanelContainer = $UI/TopCenterContainer/TurnPanel
+@onready var game_over_panel: PanelContainer = $UI/GameOverPanel
+@onready var victory_label: Label = $UI/GameOverPanel/VBoxContainer/VictoryLabel
+@onready var restart_button: Button = $UI/GameOverPanel/VBoxContainer/RestartButton
 
 const CAT_SCENE := preload("res://scenes/cat.tscn")
 
@@ -13,6 +19,9 @@ var game_over := false
 
 func _ready() -> void:
 	click_raycaster.cell_clicked.connect(_on_cell_clicked)
+	restart_button.pressed.connect(_on_restart_pressed)
+	
+	game_over_panel.visible = false
 	update_turn_label()
 
 ## turn flow: place a cat -> physics -> next turn
@@ -41,7 +50,8 @@ func place_cat(coords: Vector2i) -> void:
 	var cat := CAT_SCENE.instantiate()
 	cat.position = board.to_world(coords) + Vector3(0, 0.5, 0)
 	cats_root.add_child(cat)
-
+	cat.setup(current_player)
+	play_place_sound()
 	board.grid[coords]["cat"] = cat
 	board.grid[coords]["owner"] = current_player
 
@@ -51,7 +61,11 @@ func switch_turn() -> void:
 
 func update_turn_label() -> void:
 	turn_label.text = "Turno: Jugador %d" % (current_player + 1)
-	turn_label.remove_theme_color_override("font_color")
+	
+	if current_player == 0:
+		turn_label.add_theme_color_override("font_color", Color(0.9, 0.45, 0.1))
+	else:
+		turn_label.add_theme_color_override("font_color", Color(0.25, 0.3, 0.4))
 
 ## looks for 4 directions and pushes cats
 func push_nearby_cats(coords: Vector2i) -> void:
@@ -108,6 +122,8 @@ func move_cat(cat: Node3D, from_coords: Vector2i, to_coords: Vector2i) -> void:
 	# case 3: valid movement
 	board.grid[to_coords]["cat"] = cat
 	board.grid[to_coords]["owner"] = owner
+	
+	play_meow_sound()
 
 	# visual animation to new position
 	var tween := create_tween()
@@ -156,5 +172,17 @@ func _has_line(start: Vector2i, dir: Vector2i, player: int) -> bool:
 	
 func trigger_game_over(winner: int) -> void:
 	game_over = true
-	turn_label.text = "¡Jugador %d gana :D!" % (winner + 1)
-	turn_label.add_theme_color_override("font_color", Color.GREEN)
+	$UI/TopCenterContainer.visible = false
+	victory_label.text = "¡Jugador %d gana la partida!" % (winner + 1)
+	game_over_panel.visible = true
+	
+func play_place_sound() -> void:
+	place_sound.pitch_scale = randf_range(0.95, 1.05)
+	place_sound.play()
+
+func play_meow_sound() -> void:
+	meow_sound.pitch_scale = randf_range(0.92, 1.08)
+	meow_sound.play()
+
+func _on_restart_pressed() -> void:
+	get_tree().reload_current_scene()

@@ -4,9 +4,62 @@
 [ext_resource type="Script" uid="uid://bxl8qaywoyoxk" path="res://scripts/camera_pivot.gd" id="2_lbhrr"]
 [ext_resource type="Script" uid="uid://d1dpkvkfidt1u" path="res://scripts/board.gd" id="2_yqjtg"]
 [ext_resource type="Script" uid="uid://yapkfu4a8xjg" path="res://scripts/click_raycaster.gd" id="3_lnu2h"]
+[ext_resource type="Material" uid="uid://uu771pklrkir" path="res://assets/materials/quilt_material.tres" id="4_iywne"]
+[ext_resource type="FontFile" uid="uid://vq17e0xmq67k" path="res://assets/fonts/Anak Orang.ttf" id="6_0tnpc"]
+[ext_resource type="AudioStream" uid="uid://ds5x6l4gta17f" path="res://assets/audio/background.wav" id="6_gee14"]
+[ext_resource type="AudioStream" uid="uid://bbjui4ojlim6b" path="res://assets/audio/step.wav" id="7_gee14"]
+[ext_resource type="AudioStream" uid="uid://bkkv7d7e27fpg" path="res://assets/audio/meow.wav" id="7_u5sy4"]
+
+[sub_resource type="Environment" id="Environment_kifso"]
+background_mode = 1
+background_color = Color(0.11764706, 0.12156863, 0.16078432, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.20495427, 0.21185952, 0.36831278, 1)
+ambient_light_energy = 0.84
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.04
+glow_hdr_threshold = 0.4
+glow_hdr_scale = 0.4
+glow_hdr_luminance_cap = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_kifso"]
+material = ExtResource("4_iywne")
+size = Vector3(6, 0.4, 6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0pg10"]
+albedo_color = Color(0.3647059, 0.2509804, 0.21568628, 1)
+roughness = 0.71
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kifso"]
+size = Vector2(30, 30)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kifso"]
+bg_color = Color(0.11764706, 0.11764706, 0.14117648, 0.8)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 4
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0tnpc"]
+content_margin_left = 30.0
+content_margin_top = 25.0
+content_margin_right = 30.0
+content_margin_bottom = 25.0
+bg_color = Color(0.99215686, 0.9843137, 0.83137256, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.80784315)
 
 [node name="Game" type="Node3D" unique_id=549211417]
 script = ExtResource("1_uwrxv")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=634280118]
+environment = SubResource("Environment_kifso")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1582579875]
 script = ExtResource("2_lbhrr")
@@ -17,18 +70,116 @@ current = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="CameraPivot" unique_id=1348995215]
 transform = Transform3D(0.8660254, 0.38302222, -0.32139382, 0, 0.64278764, 0.76604444, 0.5, -0.66341394, 0.5566704, 0, 0, 0)
+light_color = Color(1, 0.972549, 0.93333334, 1)
+shadow_enabled = true
 
 [node name="Board" type="Node3D" parent="." unique_id=1655012464]
 script = ExtResource("2_yqjtg")
+
+[node name="Mattress" type="MeshInstance3D" parent="Board" unique_id=1075993713]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("BoxMesh_kifso")
 
 [node name="Cats" type="Node3D" parent="." unique_id=1553977026]
 
 [node name="ClickRaycaster" type="Node3D" parent="." unique_id=463586965]
 script = ExtResource("3_lnu2h")
 
+[node name="Floor" type="MeshInstance3D" parent="." unique_id=1245613302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+material_override = SubResource("StandardMaterial3D_0pg10")
+mesh = SubResource("PlaneMesh_kifso")
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=13076190]
 
-[node name="TurnLabel" type="Label" parent="UI" unique_id=35933207]
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="TopCenterContainer" type="MarginContainer" parent="UI" unique_id=285135671]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -90.0
+offset_top = 20.0
+offset_right = 90.0
+offset_bottom = 60.0
+grow_horizontal = 2
+
+[node name="TurnPanel" type="PanelContainer" parent="UI/TopCenterContainer" unique_id=1431084267]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kifso")
+
+[node name="TurnMargin" type="MarginContainer" parent="UI/TopCenterContainer/TurnPanel" unique_id=1647094514]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 8
+
+[node name="TurnLabel" type="Label" parent="UI/TopCenterContainer/TurnPanel/TurnMargin" unique_id=35933207]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.1764706, 0.19215687, 0.25882354, 1)
+theme_override_fonts/font = ExtResource("6_0tnpc")
+theme_override_font_sizes/font_size = 24
 text = "Turno: Jugador 1"
+
+[node name="GameOverPanel" type="PanelContainer" parent="UI" unique_id=1633354251]
+visible = false
+custom_minimum_size = Vector2(400, 200)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_force_pass_scroll_events = false
+theme_override_styles/panel = SubResource("StyleBoxFlat_0tnpc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/GameOverPanel" unique_id=827499060]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="VictoryLabel" type="Label" parent="UI/GameOverPanel/VBoxContainer" unique_id=538177041]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.23921569, 0.25882354, 0.41960785, 1)
+theme_override_fonts/font = ExtResource("6_0tnpc")
+
+[node name="Separador" type="MarginContainer" parent="UI/GameOverPanel/VBoxContainer" unique_id=839060747]
+layout_mode = 2
+
+[node name="RestartButton" type="Button" parent="UI/GameOverPanel/VBoxContainer" unique_id=448162848]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+tooltip_text = "Volver a jugar"
+theme_override_fonts/font = ExtResource("6_0tnpc")
+theme_override_font_sizes/font_size = 18
+text = "Jugar de nuevo"
+
+[node name="Instructions" type="Label" parent="UI" unique_id=1896766620]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -19.0
+offset_right = 414.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.53333336, 0.53333336, 0.53333336, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.4745098)
+theme_override_fonts/font = ExtResource("6_0tnpc")
+theme_override_font_sizes/font_size = 13
+text = "Clic izquierdo: Colocar | Clic derecho: Rotar cámara | Rueda: Zoom"
+
+[node name="MusicPlayer" type="AudioStreamPlayer3D" parent="." unique_id=1244854229]
+stream = ExtResource("6_gee14")
+volume_db = -10.467
+autoplay = true
+
+[node name="PlaceSound" type="AudioStreamPlayer" parent="." unique_id=39336862]
+stream = ExtResource("7_gee14")
+volume_db = -10.692
+
+[node name="MeowSound" type="AudioStreamPlayer" parent="." unique_id=535890826]
+stream = ExtResource("7_u5sy4")
+volume_db = -8.0
+max_polyphony = 4

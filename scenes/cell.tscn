@@ -5,7 +5,11 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_0pg10"]
 size = Vector3(0.95, 0.1, 0.95)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p57ef"]
+albedo_color = Color(0.67058825, 0.54901963, 1, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_btpay"]
+material = SubResource("StandardMaterial3D_p57ef")
 size = Vector3(0.95, 0.05, 0.95)
 
 [node name="Cell" type="StaticBody3D" unique_id=800174736]
@@ -16,4 +20,5 @@ script = ExtResource("1_upbjj")
 shape = SubResource("BoxShape3D_0pg10")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1425319873]
+transform = Transform3D(0.92, 0, 0, 0, 0.92, 0, 0, 0, 0.92, 0, 0, 0)
 mesh = SubResource("BoxMesh_btpay")

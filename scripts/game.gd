@@ -11,22 +11,40 @@ extends Node3D
 @onready var game_over_panel: PanelContainer = $UI/GameOverPanel
 @onready var victory_label: Label = $UI/GameOverPanel/VBoxContainer/VictoryLabel
 @onready var restart_button: Button = $UI/GameOverPanel/VBoxContainer/RestartButton
+@onready var main_menu: Control = $UI/MainMenu
+@onready var play_button: Button = $UI/MainMenu/CenterContainer/VBoxContainer/PlayButton
+@onready var quit_button: Button = $UI/MainMenu/CenterContainer/VBoxContainer/QuitButton
+@onready var top_center_container: Control = $UI/TopCenterContainer
+@onready var instructions_label: Control = $UI/Instructions
+@onready var camera_pivot: Node3D = $CameraPivot
 
 const CAT_SCENE := preload("res://scenes/cat.tscn")
 
 var current_player := 0
 var game_over := false
+var in_menu := true
 
 func _ready() -> void:
 	click_raycaster.cell_clicked.connect(_on_cell_clicked)
 	restart_button.pressed.connect(_on_restart_pressed)
 	
+	play_button.pressed.connect(_on_play_pressed)
+	quit_button.pressed.connect(_on_quit_pressed)
+	
+	# initial state (visible menu)
 	game_over_panel.visible = false
+	top_center_container.visible = false
+	instructions_label.visible = false
+	main_menu.visible = true
+	
+	# different angle than in-game
+	camera_pivot.rotation_degrees = Vector3(-15, 45, 0)
+	
 	update_turn_label()
-
+	
 ## turn flow: place a cat -> physics -> next turn
 func _on_cell_clicked(coords: Vector2i) -> void:
-	if game_over:
+	if game_over or in_menu:
 		return
 	
 	if not board.is_cell_empty(coords):
@@ -186,3 +204,35 @@ func play_meow_sound() -> void:
 
 func _on_restart_pressed() -> void:
 	get_tree().reload_current_scene()
+
+func _on_play_pressed() -> void:
+	play_meow_sound() # meowelcome xd
+	
+	var tween := create_tween().set_parallel(true)
+	
+	# main menu fades up
+	tween.tween_property(main_menu, "modulate:a", 0.0, 0.5)
+	tween.tween_property(main_menu, "position:y", -30.0, 0.5)
+	
+	tween.tween_property(camera_pivot, "rotation_degrees", Vector3(0, 45, 0), 1.0)\
+		.set_trans(Tween.TRANS_CUBIC)\
+		.set_ease(Tween.EASE_OUT)
+	
+	# match starts
+	await tween.finished
+	main_menu.visible = false
+	in_menu = false
+	
+	# turns and controls UI appear
+	top_center_container.visible = true
+	instructions_label.visible = true
+	top_center_container.modulate.a = 0.0
+	instructions_label.modulate.a = 0.0
+	
+	var ui_tween := create_tween().set_parallel(true)
+	ui_tween.tween_property(top_center_container, "modulate:a", 1.0, 0.4)
+	ui_tween.tween_property(instructions_label, "modulate:a", 1.0, 0.4)
+
+
+func _on_quit_pressed() -> void:
+	get_tree().quit()

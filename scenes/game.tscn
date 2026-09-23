@@ -93,6 +93,7 @@ mesh = SubResource("PlaneMesh_kifso")
 [node name="UI" type="CanvasLayer" parent="." unique_id=13076190]
 
 [node name="TopCenterContainer" type="MarginContainer" parent="UI" unique_id=285135671]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -122,7 +123,7 @@ text = "Turno: Jugador 1"
 
 [node name="GameOverPanel" type="PanelContainer" parent="UI" unique_id=1633354251]
 visible = false
-custom_minimum_size = Vector2(400, 200)
+custom_minimum_size = Vector2(400, 150)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -158,6 +159,7 @@ theme_override_font_sizes/font_size = 18
 text = "Jugar de nuevo"
 
 [node name="Instructions" type="Label" parent="UI" unique_id=1896766620]
+visible = false
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -169,6 +171,65 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.4745098)
 theme_override_fonts/font = ExtResource("6_0tnpc")
 theme_override_font_sizes/font_size = 13
 text = "Clic izquierdo: Colocar | Clic derecho: Rotar cámara | Rueda: Zoom"
+
+[node name="MainMenu" type="Control" parent="UI" unique_id=1934794685]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DarkOverlay" type="ColorRect" parent="UI/MainMenu" unique_id=35023700]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05490196, 0.0627451, 0.09019608, 0.7058824)
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/MainMenu" unique_id=1527257296]
+layout_mode = 0
+offset_left = 353.0
+offset_top = 199.0
+offset_right = 798.0
+offset_bottom = 448.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenu/CenterContainer" unique_id=372280018]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="UI/MainMenu/CenterContainer/VBoxContainer" unique_id=493068160]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8843298, 0.5989805, 0, 1)
+theme_override_fonts/font = ExtResource("6_0tnpc")
+theme_override_font_sizes/font_size = 64
+text = "¡BOOP! ₍^. .^₎Ⳋ"
+
+[node name="SubtitleLabel" type="Label" parent="UI/MainMenu/CenterContainer/VBoxContainer" unique_id=1466867034]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_0tnpc")
+theme_override_font_sizes/font_size = 18
+text = "El juego de empujar gatitos :3"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="UI/MainMenu/CenterContainer/VBoxContainer" unique_id=2094349580]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="UI/MainMenu/CenterContainer/VBoxContainer" unique_id=192386573]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_0tnpc")
+theme_override_font_sizes/font_size = 20
+text = "Jugar"
+
+[node name="QuitButton" type="Button" parent="UI/MainMenu/CenterContainer/VBoxContainer" unique_id=1509784297]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_0tnpc")
+theme_override_font_sizes/font_size = 20
+text = "Salir"
 
 [node name="MusicPlayer" type="AudioStreamPlayer3D" parent="." unique_id=1244854229]
 stream = ExtResource("6_gee14")

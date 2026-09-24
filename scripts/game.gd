@@ -18,6 +18,9 @@ extends Node3D
 @onready var instructions_label: Control = $UI/Instructions
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var piece_type_button: Button = $UI/TopCenterContainer/TurnPanel/TurnMargin/VBoxContainer/PieceTypeButton
+@onready var how_to_play_button: Button = $UI/MainMenu/CenterContainer/VBoxContainer/HowToPlayButton
+@onready var how_to_play_panel: PanelContainer = $UI/HowToPlayPanel
+@onready var close_rules_button: Button = $UI/HowToPlayPanel/MarginContainer/VBoxContainer/CloseRulesButton
 
 const CAT_SCENE := preload("res://scenes/cat.tscn")
 
@@ -50,6 +53,12 @@ func _ready() -> void:
 	
 	piece_type_button.pressed.connect(_on_piece_type_toggle)
 	update_piece_selector_ui()
+	
+	how_to_play_button.pressed.connect(_on_how_to_play_pressed)
+	close_rules_button.pressed.connect(_on_close_rules_pressed)
+	
+	how_to_play_panel.visible = false
+	how_to_play_panel.scale = Vector2.ZERO
 	
 	update_turn_label()
 	
@@ -323,3 +332,22 @@ func update_piece_selector_ui() -> void:
 		
 	# disabled button if no big cats available
 	piece_type_button.disabled = (big_count == 0)
+
+func _on_how_to_play_pressed() -> void:
+	play_meow_sound()
+	how_to_play_panel.visible = true
+	how_to_play_panel.pivot_offset = how_to_play_panel.size / 2.0
+	how_to_play_panel.scale = Vector2.ZERO
+	
+	var tween := create_tween()
+	tween.tween_property(how_to_play_panel, "scale", Vector2.ONE, 0.25)\
+		.set_trans(Tween.TRANS_BACK)\
+		.set_ease(Tween.EASE_OUT)
+
+func _on_close_rules_pressed() -> void:
+	var tween := create_tween()
+	tween.tween_property(how_to_play_panel, "scale", Vector2.ZERO, 0.2)\
+		.set_trans(Tween.TRANS_BACK)\
+		.set_ease(Tween.EASE_IN)
+	await tween.finished
+	how_to_play_panel.visible = false

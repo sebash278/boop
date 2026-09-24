@@ -114,12 +114,20 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 8
 
-[node name="TurnLabel" type="Label" parent="UI/TopCenterContainer/TurnPanel/TurnMargin" unique_id=35933207]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/TopCenterContainer/TurnPanel/TurnMargin" unique_id=487554719]
+layout_mode = 2
+
+[node name="TurnLabel" type="Label" parent="UI/TopCenterContainer/TurnPanel/TurnMargin/VBoxContainer" unique_id=35933207]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.1764706, 0.19215687, 0.25882354, 1)
 theme_override_fonts/font = ExtResource("6_0tnpc")
 theme_override_font_sizes/font_size = 24
 text = "Turno: Jugador 1"
+
+[node name="PieceTypeButton" type="Button" parent="UI/TopCenterContainer/TurnPanel/TurnMargin/VBoxContainer" unique_id=394032215]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_0tnpc")
+text = "Colocando:  Gatito"
 
 [node name="GameOverPanel" type="PanelContainer" parent="UI" unique_id=1633354251]
 visible = false
